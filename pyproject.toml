@@ -1,0 +1,142 @@
+[project]
+authors = [{ name = "Robert Leo", email = "robert.leo.jonsson@gmail.com" }]
+requires-python = "==3.11.*"
+dependencies = [
+    "fire<1.0.0,>=0.5.0",
+    "tyro<1.0.0,>=0.6.0",
+    "mypy<2.0.0,>=1.9.0",
+    "flags<1.0.0.0,>=0.0.1.2",
+    "opencv-contrib-python<5.0.0.0,>=4.11.0.86",
+    "pyrealsense2<3.0.0.0,>=2.55.1.6486",
+    "mediapy<2.0.0,>=1.2.2",
+    "einops<1.0.0,>=0.8.1",
+    "tifffile<2026.0.0,>=2025.1.10",
+    "pybind11-stubgen<3.0.0,>=2.5.1",
+    "rerun-sdk>=0.22.1",
+    "viser>=0.2.23",
+    "sympy",
+    # PR that fixes some crazy segfault I was having.
+    # update this link when the PR is merged
+    # https://github.com/symforce-org/symforce/pull/426
+    "symforce @ file:///${PROJECT_ROOT}/external/symforce",
+    "pypose>=0.7.2",
+    "torch>=2.4.1",
+    "imageio[ffmpeg,pyav]>=2.37.0",
+    "dt-apriltags>=3.1.7",
+    "numba>=0.61.0",
+    "open3d>=0.19.0",
+    "depthai>=2.29.0.0",
+    "depthai-viewer>=0.2.9",
+]
+
+
+name = "project"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+
+[dependency-groups]
+dev = [
+    "black[jupyter]<24.0.0,>=23.1.0",
+    "ipython<9.0.0,>=8.11.0",
+    "isort<6.0.0,>=5.12.0",
+    "ruff>=0.0.291",
+    "pre-commit<4.0.0,>=3.2.1",
+    "myst-parser<2.0.0,>=1.0.0",
+    "pytest<8.0.0,>=7.2.2",
+    "jupytext<2.0.0,>=1.14.5",
+    "sybil<6.0.0,>=5.0.3",
+    "pyright<2.0.0,>=1.1.393",
+    "ipykernel>=6.29.5",
+]
+third_party = ["munkres==1.1.4", "ffmpeg<2.0,>=1.4"]
+
+[tool.pyright]
+exclude = ["notebooks", "external", ".venv", "vcpkg_installed"]
+ignore = []
+
+[tool.ruff]
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    "__pypackages__",
+    ".venv",
+    "_build",
+    "build",
+    "dist",
+    "external",
+    "attic",
+    "notebooks",
+    "vcpkg_installed",
+    "src/g2o",
+]
+
+# Same as Black.
+line-length = 120
+
+# Assume Python 3.10.
+target-version = "py311"
+
+[tool.ruff.lint]
+
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F", "I"]
+ignore = ["D100", "D101", "D104", "D"]
+
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+per-file-ignores = {}
+
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+
+[tool.isort]
+profile = "black"
+extend_skip = ["external", "attic"]
+
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | _build
+  | buck-out
+  | build
+  | dist
+  | external
+  | attic
+  | .venv
+  | vcpkg_installed
+  | src/g2o
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src/project/utils"]
+# we use Sybil to find doctests.
+# by default, don't run end_to_end_workstation tests
+addopts = "-p no:doctest --strict-markers"
+markers = []
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

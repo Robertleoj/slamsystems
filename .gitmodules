@@ -1,0 +1,9 @@
+[submodule "external/symforce"]
+	path = external/symforce
+	url = git@github.com:symforce-org/symforce.git
+[submodule "external/DBow3"]
+	path = external/DBow3
+	url = git@github.com:Robertleoj/DBow3.git
+[submodule "external/Remotery"]
+	path = external/Remotery
+	url = git@github.com:Celtoys/Remotery.git

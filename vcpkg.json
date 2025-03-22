@@ -1,0 +1,15 @@
+{
+    "name": "slambook",
+    "version-string": "0.1.0",
+    "dependencies": [
+        "fmt",
+        "spdlog",
+        "eigen3",
+        "sophus",
+        "g2o",
+        "pybind11",
+        "ceres",
+        "opencv4",
+        "arrow"
+    ]
+}
