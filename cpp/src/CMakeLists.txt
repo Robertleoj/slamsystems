@@ -6,6 +6,8 @@ set(FILES
     oak_slam/orb.cpp
     oak_slam/python.cpp
     oak_slam/triangulation.cpp
+    depth_slam/python.cpp
+    optim/symforce/conversion.cpp
     ../../external/Remotery/lib/Remotery.c
 )
 

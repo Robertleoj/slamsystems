@@ -6,9 +6,9 @@ from __future__ import annotations
 
 import numpy
 
-from . import depth_slam, tag_slam
+from . import tag_slam
 
-__all__ = ["PoseGraphEdge", "PoseGraphVertex", "depth_slam", "pose_graph_ba", "tag_slam"]
+__all__ = ["PoseGraphEdge", "PoseGraphVertex", "pose_graph_ba", "tag_slam"]
 
 class PoseGraphEdge:
     @staticmethod

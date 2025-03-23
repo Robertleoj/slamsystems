@@ -7,9 +7,9 @@
 #include <symforce/opt/optimizer.h>
 #include <format>
 
+#include <foundation/depth_slam/python.hpp>
 #include <foundation/oak_slam/python.hpp>
 #include <foundation/spatial/lie_algebra.hpp>
-#include <foundation/symforce_exercises/depth_slam.hpp>
 #include <foundation/symforce_exercises/pose_graph.hpp>
 #include <foundation/symforce_exercises/tag_slam.hpp>
 #include <foundation/utils/camera.hpp>
@@ -33,7 +33,6 @@ std::string info(T& obj) {
   s << obj;
   return s.str();
 }
-
 
 void init_spatial(py::module_& m) {
   m.def("SE3_log", &SE3_log, "Logarithm mapping from SE3 to se3",
@@ -65,31 +64,6 @@ void init_tag_slam(py::module_& m) {
         py::arg("tags"), py::arg("tag_side_length"));
 }
 
-void init_depth_slam(py::module_& m) {
-  py::class_<depth_slam::CameraPose>(m, "CameraPose")
-      .def(py::init<int, py::EigenDRef<Eigen::Matrix4d>>(), py::arg("frame_id"),
-           py::arg("camera_pose"))
-      .def_readonly("frame_id", &depth_slam::CameraPose::frame_id)
-      .def_readonly("camera_pose", &depth_slam::CameraPose::camera_pose);
-
-  py::class_<depth_slam::Landmark>(m, "Landmark")
-      .def(py::init<int, py::EigenDRef<Eigen::Vector3d>>(), py::arg("id"),
-           py::arg("loc"))
-      .def_readonly("id", &depth_slam::Landmark::id)
-      .def_readonly("loc", &depth_slam::Landmark::loc);
-
-  py::class_<depth_slam::LandmarkProjectionObservation>(
-      m, "LandmarkProjectionObservation")
-      .def(py::init<int, int, py::EigenDRef<Eigen::Vector2d>,
-                    std::optional<double>>(),
-           py::arg("frame_id"), py::arg("landmark_id"), py::arg("observation"),
-           py::arg("depth"));
-
-  m.def("depth_slam_ba", &depth_slam::depth_slam_ba,
-        "Depth slam bundle adjustment", py::arg("camera_cal"),
-        py::arg("camera_poses"), py::arg("observations"), py::arg("landmarks"));
-}
-
 void init_symforce_exercises(py::module_& m) {
   py::class_<PoseGraphEdge>(m, "PoseGraphEdge")
       .def(py::init<int, int, py::EigenDRef<Eigen::Matrix4d>>(),
@@ -103,9 +77,6 @@ void init_symforce_exercises(py::module_& m) {
 
   auto tag_slam_module = m.def_submodule("tag_slam");
   init_tag_slam(tag_slam_module);
-
-  auto depth_slam_module = m.def_submodule("depth_slam");
-  init_depth_slam(depth_slam_module);
 }
 
 void init_utils(py::module_& m) {
@@ -179,4 +150,7 @@ PYBIND11_MODULE(foundation, m) {
 
   auto oak_slam = m.def_submodule("oak_slam", "Oak slam broseph");
   oak_slam::init_oak_slam(oak_slam);
+
+  auto depth_slam_module = m.def_submodule("depth_slam");
+  init_depth_slam(depth_slam_module);
 }
