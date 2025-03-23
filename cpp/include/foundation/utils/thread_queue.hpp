@@ -38,7 +38,20 @@ class ThreadQueue {
     auto value = std::move(queue.front());
     queue.pop();
 
-    return std::move(value);
+    return value;
+  }
+
+  std::optional<T> try_pop() {
+    std::scoped_lock l(mtx);
+
+    if (queue.empty()) {
+      return std::nullopt;
+    }
+
+    auto value = std::move(queue.front());
+    queue.pop();
+
+    return value;
   }
 
   int size() const {
