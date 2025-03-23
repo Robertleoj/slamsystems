@@ -2,13 +2,11 @@
 #include <Remotery.h>
 
 #include <foundation/oak_slam/map.hpp>
-#include <foundation/oak_slam/rerun_logger.hpp>
 #include <foundation/oak_slam/tracker.hpp>
 #include <foundation/oak_slam/type_defs.hpp>
 #include <foundation/utils/camera.hpp>
 #include <foundation/utils/numpy.hpp>
 #include <opencv2/opencv.hpp>
-#include <rerun.hpp>
 #include <thread>
 
 namespace foundation {
@@ -24,9 +22,7 @@ class OakSlam {
       : cam_calibration(OakCameraCalibration{color_intrinsics, left_intrinsics,
                                              right_intrinsics, center_to_left,
                                              center_to_right}),
-        rerun_logger("oak_slam"),
-        tracker(cam_calibration, &rerun_logger, &map) {
-    rerun_logger.log_calibration(cam_calibration);
+        tracker(cam_calibration, &map) {
 
     rmtSettings* settings = rmt_Settings();
     settings->port = 17815;  // Change to your desired port
@@ -35,7 +31,6 @@ class OakSlam {
   }
 
   void process_frame(OakFrame& frame) {
-    rerun_logger.log_frame(frame);
     tracker.process_frame(frame);
   }
 
@@ -53,7 +48,6 @@ class OakSlam {
   Map map;
   OakCameraCalibration cam_calibration;
 
-  RerunLogger rerun_logger;
   Tracker tracker;
 
   Remotery* rmt;

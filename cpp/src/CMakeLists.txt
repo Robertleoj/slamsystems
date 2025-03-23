@@ -2,9 +2,7 @@ set(FILES
     spatial/lie_algebra.cpp
     utils/camera.cpp
     utils/numpy.cpp
-    utils/rerun.cpp
     utils/image.cpp
-    oak_slam/rerun_logger.cpp
     oak_slam/orb.cpp
     oak_slam/python.cpp
     oak_slam/triangulation.cpp
@@ -13,6 +11,6 @@ set(FILES
 
 pybind11_add_module(foundation python.cpp ${FILES})
 
-target_link_libraries(foundation PRIVATE spdlog::spdlog Eigen3::Eigen Sophus::Sophus opencv_core symforce_gen symforce_opt symforce_cholesky symforce_slam DBoW3 rerun_sdk)
+target_link_libraries(foundation PRIVATE spdlog::spdlog Eigen3::Eigen Sophus::Sophus opencv_core symforce_gen symforce_opt symforce_cholesky symforce_slam DBoW3)
 
 target_include_directories(foundation PRIVATE ${LOCAL_INCLUDE_DIR})
