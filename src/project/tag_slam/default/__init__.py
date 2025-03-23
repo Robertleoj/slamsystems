@@ -6,7 +6,7 @@ import dt_apriltags as april
 import numpy as np
 from tqdm import tqdm
 
-from project.foundation.symforce_exercises.tag_slam import CameraPose, Tag, TagObservation, tag_slam_ba
+from project.foundation.tag_slam import CameraPose, Tag, TagObservation, tag_slam_ba
 from project.utils.camera.camera_params import Intrinsics
 from project.utils.image import to_greyscale
 from project.utils.markers import DetectedTag, Tag3D, detect_tags, estimate_3d_tag, get_tag_detector

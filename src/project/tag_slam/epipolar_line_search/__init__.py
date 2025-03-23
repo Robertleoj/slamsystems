@@ -3,7 +3,7 @@ from dataclasses import dataclass, replace
 import dt_apriltags as april
 import numpy as np
 
-from project.foundation.symforce_exercises.tag_slam import CameraPose, Tag, TagObservation, tag_slam_ba
+from project.foundation.tag_slam import CameraPose, Tag, TagObservation, tag_slam_ba
 from project.tag_slam.epipolar_line_search.epipolar_search_depth_estimator import KeyFrameDepthEstimator
 from project.utils.camera.camera_params import Intrinsics
 from project.utils.depth_estimation.block_search import epipolar_line_search, epipolar_line_search_block_match

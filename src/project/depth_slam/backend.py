@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import numpy as np
 
-import project.foundation.symforce_exercises.depth_slam as cpp_ds
+import project.foundation.depth_slam as cpp_ds
 from project.depth_slam.data_types import Frame, Map, get_features_3d
 from project.utils.camera.camera_params import Intrinsics
 from project.utils.pnp import estimate_pose_pnp

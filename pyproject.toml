@@ -50,7 +50,7 @@ dev = [
 third_party = ["munkres==1.1.4", "ffmpeg<2.0,>=1.4"]
 
 [tool.pyright]
-exclude = ["notebooks", "external", ".venv", "vcpkg_installed"]
+exclude = ["notebooks", "external", ".venv", "vcpkg_installed", "**/*.pyi"]
 ignore = []
 
 [tool.ruff]

@@ -23,27 +23,21 @@ if 'eps_set' not in globals():
     eps_set = True
 
 
-from pathlib import Path
-import project.utils.rerun_utils as rr_utils
-import rerun as rr
-from project.utils.spatial import Pose, Rotation
-from project.utils.paths import repo_root, symforce_codegen_path
-from project.utils.symforce_utils import sf_to_pose, pose_to_sf, set_darkmode
-from project.foundation.symforce_exercises import PoseGraphVertex, PoseGraphEdge
-
-
 from dataclasses import dataclass
-import numpy as np
+from pathlib import Path
 
+import numpy as np
+import rerun as rr
 import symforce.symbolic as sf
-from symforce.values.values import Values
-from symforce.opt.factor import Factor
-from symforce.opt.optimizer import Optimizer
-from symforce.opt.optimizer_params import OptimizerParams
-from symforce.codegen import codegen_util
 from symforce import codegen
-from symforce.notebook_util import display_code_file
 from symforce.notebook_util import set_notebook_defaults
+from symforce.opt.optimizer_params import OptimizerParams
+
+import project.utils.rerun_utils as rr_utils
+from project.foundation.pose_graph import PoseGraphEdge, PoseGraphVertex
+from project.utils.paths import repo_root
+from project.utils.spatial import Pose, Rotation
+from project.utils.symforce_utils import set_darkmode
 
 set_notebook_defaults()
 set_darkmode()
@@ -193,7 +187,7 @@ def generate_code(output_dir: Path) -> None:
 # generate_code(symforce_codegen_path() / "circle_pose_graph")
 
 # %%
-from project.foundation.symforce_exercises import pose_graph_ba
+from project.foundation.pose_graph import pose_graph_ba
 
 # %%
 res = pose_graph_ba(

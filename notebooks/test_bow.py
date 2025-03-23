@@ -14,13 +14,13 @@
 
 # %%
 import cv2
-import numpy as np
 import imageio.v3 as iio
+import numpy as np
 from tqdm import tqdm
+
+from project.foundation.dbow import BowDatabase, BowVocabulary
 from project.utils.features import orb_detect_and_compute
 from project.utils.paths import repo_root
-from project.utils.image import to_greyscale
-from project.foundation.utils import BowVocabulary, BowDatabase
 
 # %%
 vid_path = repo_root() / "data/monumental_take_home/plantage_shed.mp4"
