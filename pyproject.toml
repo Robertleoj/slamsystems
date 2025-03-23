@@ -13,13 +13,11 @@ dependencies = [
     "tifffile<2026.0.0,>=2025.1.10",
     "pybind11-stubgen<3.0.0,>=2.5.1",
     "rerun-sdk>=0.22.1",
-    "viser>=0.2.23",
     "sympy",
     # PR that fixes some crazy segfault I was having.
     # update this link when the PR is merged
     # https://github.com/symforce-org/symforce/pull/426
     "symforce @ file:///${PROJECT_ROOT}/external/symforce",
-    "pypose>=0.7.2",
     "torch>=2.4.1",
     "imageio[ffmpeg,pyav]>=2.37.0",
     "dt-apriltags>=3.1.7",
