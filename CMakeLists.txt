@@ -19,12 +19,7 @@ message(STATUS "${CMAKE_TOOLCHAIN_FILE}")
 find_package(Python COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
 
-set(GFLAGS_USE_TARGET_NAMESPACE ON)
-
-find_package(Threads REQUIRED)
-find_package(gflags CONFIG REQUIRED)
 find_package(pybind11 REQUIRED)
-find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(Sophus CONFIG REQUIRED)

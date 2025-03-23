@@ -30,7 +30,7 @@ class Vec3:
     @staticmethod
     def from_arr(arr: np.ndarray) -> Vec3:
         arr = arr.squeeze()
-        assert arr.shape() == (3,)
+        assert arr.shape == (3,)
 
         return Vec3(*arr)
 

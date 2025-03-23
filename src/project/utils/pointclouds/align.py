@@ -2,11 +2,7 @@ from typing import cast
 
 import einops
 import numpy as np
-import pypose as pp
-import torch
-from pypose.optim.scheduler import StopOnPlateau
 
-from project.utils.pypose_utils import pose_from_pypose
 from project.utils.spatial import Pose
 
 
@@ -72,30 +68,3 @@ def align_point_matches_svd_ransac(
     assert best_inlier_mask is not None
 
     return best_pose, best_inlier_mask
-
-
-def align_point_matches_pypose(points1: np.ndarray, points2: np.ndarray) -> Pose:
-    class ICPPoseGraph(torch.nn.Module):
-        def __init__(self) -> None:
-            super().__init__()
-            init = pp.identity_SE3()
-            self.pose = pp.Parameter(init)
-
-        def forward(self, points1: torch.Tensor, points2: torch.Tensor) -> torch.Tensor:
-            points2_trans = self.pose @ points2
-
-            return points1 - points2_trans
-
-    pnp_g = ICPPoseGraph()
-    solver = pp.optim.solver.Cholesky()
-    strategy = pp.optim.strategy.TrustRegion()
-
-    optimizer = pp.optim.LM(pnp_g, solver=solver, strategy=strategy, min=1e-6)
-    scheduler = StopOnPlateau(optimizer, steps=10, patience=3, decreasing=1e-3, verbose=True)
-
-    p1_t = torch.from_numpy(points1).to(dtype=torch.float32)
-    p2_t = torch.from_numpy(points2).to(dtype=torch.float32)
-
-    scheduler.optimize(input=(p1_t, p2_t))
-
-    return pose_from_pypose(pnp_g.pose)
