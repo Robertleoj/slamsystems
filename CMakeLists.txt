@@ -23,6 +23,7 @@ find_package(pybind11 REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(Sophus CONFIG REQUIRED)
+find_package(Pangolin CONFIG REQUIRED)
 # set(OpenCV_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-linux/opencv4/opencv2")
 find_package(OpenCV REQUIRED)
 
