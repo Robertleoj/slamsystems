@@ -8,6 +8,22 @@
 namespace foundation {
 namespace oak_slam {
 
+class WindowLock {
+   public:
+    WindowLock(
+        std::mutex* mutex,
+        std::string& window_name
+    )
+        : guard(*mutex) {
+        pangolin::BindToContext(window_name);
+    }
+
+    ~WindowLock() { pangolin::GetBoundWindow()->RemoveCurrent(); }
+
+   private:
+    std::lock_guard<std::mutex> guard;
+};
+
 struct ImageDisplays {
     pangolin::View* left_display = nullptr;
     pangolin::View* middle_display = nullptr;
@@ -66,10 +82,15 @@ struct ImageDisplays {
  * rendering loop
  */
 struct VisualizerState {
+    std::mutex window_owner_mutex;
+
     pangolin::OpenGlRenderState camera_state;
     pangolin::View* scene_display = nullptr;
     std::unique_ptr<pangolin::Handler3D> handler;
     ImageDisplays image_displays;
+    std::string window_name;
+
+    WindowLock lock() { return WindowLock(&window_owner_mutex, window_name); }
 };
 
 /**
@@ -80,6 +101,8 @@ class Visualizer {
    public:
     Visualizer()
         : should_stop(false) {
+        Visualizer::initialize_state(&vis_state);
+
         runner = std::thread(&Visualizer::run, this);
     }
 
@@ -93,7 +116,8 @@ class Visualizer {
     void set_current_frame(
         OakFrame& frame
     ) {
-        current_frame.update(frame);
+        auto lock = vis_state.lock();
+        vis_state.image_displays.update(frame);
     }
 
     ~Visualizer() { stop(); }
@@ -103,68 +127,20 @@ class Visualizer {
     std::atomic<bool> should_stop;
 
     ThreadValue<OakFrame> current_frame;
+    VisualizerState vis_state;
 
     /**
-     * Must be run in the rendering thread!
-     */
-    void initialize(
-        VisualizerState& vis_state
-    ) {
-        pangolin::CreateWindowAndBind("SLAM Viz", 1024, 768);
-        glEnable(GL_DEPTH_TEST);
-
-        vis_state.camera_state = pangolin::OpenGlRenderState(
-            pangolin::ProjectionMatrix(
-                1024, 768, 500, 500, 512, 389, 0.1, 1000
-            ),
-            pangolin::ModelViewLookAt(0, -10, -8, 0, 0, 0, pangolin::AxisY)
-        );
-
-        vis_state.handler =
-            std::make_unique<pangolin::Handler3D>(vis_state.camera_state);
-
-        // Create 3 image display views
-        vis_state.image_displays.left_display =
-            &pangolin::CreateDisplay()
-                 .SetBounds(0.66, 1.0, 0.0, 0.33)
-                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
-
-        vis_state.image_displays.middle_display =
-            &pangolin::CreateDisplay()
-                 .SetBounds(0.66, 1.0, 0.33, 0.66)
-                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
-
-        vis_state.image_displays.right_display =
-            &pangolin::CreateDisplay()
-                 .SetBounds(0.66, 1.0, 0.66, 1.0)
-                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
-
-        vis_state.scene_display =
-            &pangolin::CreateDisplay()
-                 .SetBounds(0.0, 1.0, 0.0, 1.0, -1024.0f / 768.0f)
-                 .SetHandler(vis_state.handler.get());
-
-        vis_state.image_displays.initialize();
-    }
-
-    /**
-     * Must be run in the rendering thread!
+     * lock argument required to assure caller holds the lock
      */
     void update(
-        VisualizerState& vis_state
-    ) {
-        // update images
-        auto next_frame = current_frame.get_update();
-        if (next_frame.has_value()) {
-            vis_state.image_displays.update(next_frame.value());
-        }
-    }
+        const WindowLock& lock
+    ) {}
 
     /**
-     * Must be run in the rendering thread!
+     * lock argument required to assure caller holds the lock
      */
     void render(
-        VisualizerState& vis_state
+        const WindowLock& lock
     ) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         vis_state.scene_display->Activate(vis_state.camera_state);
@@ -177,16 +153,64 @@ class Visualizer {
 
     void run() {
         spdlog::info("starting visuzlier runner");
-        VisualizerState vis_state;
 
-        initialize(vis_state);
+        while (true) {
+            {
+                auto lock = vis_state.lock();
+                if (pangolin::ShouldQuit() || should_stop.load()) {
+                    break;
+                }
 
-        while (!pangolin::ShouldQuit() && !should_stop.load()) {
-            update(vis_state);
-            render(vis_state);
+                update(lock);
+                render(lock);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
 
         spdlog::info("visualizer runner done");
+    }
+
+    static void initialize_state(
+        VisualizerState* vis_state
+    ) {
+        vis_state->window_name = "SLAM viz";
+
+        pangolin::CreateWindowAndBind(vis_state->window_name, 1024, 768);
+        glEnable(GL_DEPTH_TEST);
+
+        vis_state->camera_state = pangolin::OpenGlRenderState(
+            pangolin::ProjectionMatrix(
+                1024, 768, 500, 500, 512, 389, 0.1, 1000
+            ),
+            pangolin::ModelViewLookAt(0, -10, -8, 0, 0, 0, pangolin::AxisY)
+        );
+
+        vis_state->handler =
+            std::make_unique<pangolin::Handler3D>(vis_state->camera_state);
+
+        // Create 3 image display views
+        vis_state->image_displays.left_display =
+            &pangolin::CreateDisplay()
+                 .SetBounds(0.66, 1.0, 0.0, 0.33)
+                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
+
+        vis_state->image_displays.middle_display =
+            &pangolin::CreateDisplay()
+                 .SetBounds(0.66, 1.0, 0.33, 0.66)
+                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
+
+        vis_state->image_displays.right_display =
+            &pangolin::CreateDisplay()
+                 .SetBounds(0.66, 1.0, 0.66, 1.0)
+                 .SetLock(pangolin::LockLeft, pangolin::LockTop);
+
+        vis_state->scene_display =
+            &pangolin::CreateDisplay()
+                 .SetBounds(0.0, 1.0, 0.0, 1.0, -1024.0f / 768.0f)
+                 .SetHandler(vis_state->handler.get());
+
+        vis_state->image_displays.initialize();
+        pangolin::GetBoundWindow()->RemoveCurrent();
     }
 };
 
