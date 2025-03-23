@@ -6,12 +6,10 @@ AllowShortEnumsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLambdasOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-# AllowShortNamespacesOnASingleLine: false
 BreakFunctionDefinitionParameters: true
 
 BinPackArguments: false
 BinPackParameters: false
-# BinPackLongBracedList: false
 PackConstructorInitializers: Never
 
 InsertBraces: true

@@ -22,9 +22,9 @@ def run_clang_format() -> None:
         header_paths = Path(name).rglob("*.hpp")
         all_paths.extend([str(el) for el in chain(source_paths, header_paths)])
 
-    print(all_paths)
-
     subprocess.run(["clang-format", "-i"] + all_paths)
+
+    print(f"Formatted {len(all_paths)} files")
 
 
 if __name__ == "__main__":
