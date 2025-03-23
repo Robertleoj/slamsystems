@@ -6,7 +6,6 @@
         "eigen3",
         "sophus",
         "pybind11",
-        "ceres",
         "opencv4",
         "arrow"
     ]

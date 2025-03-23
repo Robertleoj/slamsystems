@@ -2,15 +2,12 @@
 #include <DBow3/DBoW3.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
-#include <format>
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 #include <symforce/opt/optimizer.h>
+#include <format>
 
 #include <foundation/oak_slam/python.hpp>
-#include <foundation/reinventing/icp_ceres.hpp>
-#include <foundation/reinventing/poly_fit_ceres.hpp>
-#include <foundation/reinventing/solve_pnp_ceres.hpp>
 #include <foundation/spatial/lie_algebra.hpp>
 #include <foundation/symforce_exercises/depth_slam.hpp>
 #include <foundation/symforce_exercises/pose_graph.hpp>
@@ -31,27 +28,14 @@ namespace py = pybind11;
 using namespace foundation;
 
 template <typename T>
-std::string info(T &obj) {
+std::string info(T& obj) {
   std::stringstream s;
   s << obj;
   return s.str();
 }
 
-void init_reinventing(py::module_ &m) {
-  m.def("solve_pnp_ceres", &solve_pnp_ceres_pywrapper,
-        "Solve PnP problem using Ceres", py::arg("image_points"),
-        py::arg("object_points"), py::arg("K"), py::arg("rvec_init"),
-        py::arg("tvec_init"));
 
-  m.def("fit_poly_ceres", &fit_poly_ceres,
-        "Fit a polynomial to data with Ceres", py::arg("data_x"),
-        py::arg("data_y"), py::arg("poly_order"));
-
-  m.def("icp_ceres", &icp_ceres_pywrapper, py::arg("points1"),
-        py::arg("points2"), py::arg("initial_rvec"), py::arg("initial_tvec"));
-}
-
-void init_spatial(py::module_ &m) {
+void init_spatial(py::module_& m) {
   m.def("SE3_log", &SE3_log, "Logarithm mapping from SE3 to se3",
         py::arg("mat"));
 
@@ -59,7 +43,7 @@ void init_spatial(py::module_ &m) {
         py::arg("se3"));
 }
 
-void init_tag_slam(py::module_ &m) {
+void init_tag_slam(py::module_& m) {
   py::class_<tag_slam::CameraPose>(m, "CameraPose")
       .def(py::init<int, py::EigenDRef<Eigen::Matrix4d>>(), py::arg("frame_id"),
            py::arg("camera_pose"))
@@ -81,7 +65,7 @@ void init_tag_slam(py::module_ &m) {
         py::arg("tags"), py::arg("tag_side_length"));
 }
 
-void init_depth_slam(py::module_ &m) {
+void init_depth_slam(py::module_& m) {
   py::class_<depth_slam::CameraPose>(m, "CameraPose")
       .def(py::init<int, py::EigenDRef<Eigen::Matrix4d>>(), py::arg("frame_id"),
            py::arg("camera_pose"))
@@ -106,7 +90,7 @@ void init_depth_slam(py::module_ &m) {
         py::arg("camera_poses"), py::arg("observations"), py::arg("landmarks"));
 }
 
-void init_symforce_exercises(py::module_ &m) {
+void init_symforce_exercises(py::module_& m) {
   py::class_<PoseGraphEdge>(m, "PoseGraphEdge")
       .def(py::init<int, int, py::EigenDRef<Eigen::Matrix4d>>(),
            py::arg("v1_id"), py::arg("v2_id"), py::arg("v1_to_v2"));
@@ -124,7 +108,7 @@ void init_symforce_exercises(py::module_ &m) {
   init_depth_slam(depth_slam_module);
 }
 
-void init_utils(py::module_ &m) {
+void init_utils(py::module_& m) {
   py::class_<DBoW3::BowVector>(m, "BowVector");
 
   py::class_<DBoW3::Result>(m, "BowResult")
@@ -138,18 +122,18 @@ void init_utils(py::module_ &m) {
       .def("create", &vocab_create, py::arg("descriptors"))
       .def("save", &vocab_save, py::arg("path"))
       .def("load", &vocab_load, py::arg("path"))
-      .def("info", [](DBoW3::Vocabulary &vocab) { return info(vocab); })
+      .def("info", [](DBoW3::Vocabulary& vocab) { return info(vocab); })
       .def("transform", &vocab_transform, py::arg("descriptor"))
       .def("score", &DBoW3::Vocabulary::score, py::arg("v1"), py::arg("v2"))
       .def("__str__", &info<DBoW3::Vocabulary>)
       .def("__repr__", &info<DBoW3::Vocabulary>);
 
   py::class_<DBoW3::Database>(m, "BowDatabase")
-      .def(py::init<DBoW3::Vocabulary &, bool, int>(), py::arg("vocab"),
+      .def(py::init<DBoW3::Vocabulary&, bool, int>(), py::arg("vocab"),
            py::arg("use_direct_index") = true,
            py::arg("direct_index_levels") = 0)
       .def("add", &db_add, py::arg("desc"))
-      .def("info", [](DBoW3::Database &obj) { return info(obj); })
+      .def("info", [](DBoW3::Database& obj) { return info(obj); })
       .def("query", &db_query, py::arg("descriptors"), py::arg("max_results"))
       .def("__str__", &info<DBoW3::Database>)
       .def("__repr__", &info<DBoW3::Database>);
@@ -162,7 +146,7 @@ void init_utils(py::module_ &m) {
                     unsigned int>(),
            py::arg("K"), py::arg("dist_coeffs"), py::arg("width"),
            py::arg("height"))
-      .def("__repr__", [](CameraParams &cam) {
+      .def("__repr__", [](CameraParams& cam) {
         return std::format(
             "CameraParams(fx={}, fy={}, cx={}, cy={}, width={}, height={})",
             cam.fx(), cam.fy(), cam.cx(), cam.cy(), cam.width, cam.height);
@@ -177,14 +161,11 @@ PYBIND11_MODULE(foundation, m) {
 
   m.def(
       "set_spdlog_level",
-      [](const std::string &level) {
+      [](const std::string& level) {
         spdlog::set_level(spdlog::level::from_str(level));
       },
       "Set spd log level. Supported levels are: trace, debug, info, warn, "
       "error, critical, off.");
-
-  auto reinventing = m.def_submodule("reinventing", "Reinventing the wheel");
-  init_reinventing(reinventing);
 
   auto spatial = m.def_submodule("spatial", "Spatial stuff");
   init_spatial(spatial);

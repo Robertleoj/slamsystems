@@ -33,7 +33,6 @@ find_package(Sophus CONFIG REQUIRED)
 # set(OpenCV_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-linux/opencv4/opencv2")
 find_package(OpenCV REQUIRED)
 
-find_package(Ceres REQUIRED)
 
 
 set(LOCAL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp/include)
