@@ -7,9 +7,9 @@ Bindings to the foundation.
 
 from __future__ import annotations
 
-from . import depth_slam, oak_slam, spatial, symforce_exercises, utils
+from . import dbow, depth_slam, oak_slam, pose_graph, spatial, tag_slam, utils
 
-__all__ = ["depth_slam", "oak_slam", "set_spdlog_level", "spatial", "symforce_exercises", "utils"]
+__all__ = ["dbow", "depth_slam", "oak_slam", "pose_graph", "set_spdlog_level", "spatial", "tag_slam", "utils"]
 
 def set_spdlog_level(arg0: str) -> None:
     """

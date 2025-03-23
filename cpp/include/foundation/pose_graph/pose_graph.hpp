@@ -1,6 +1,8 @@
 #pragma once
 
 #include <foundation/symforce_generated/circle_pose_graph/cpp/symforce/circle_pose_graph/pose_diff_factor.h>
+#include <pybind11/eigen.h>
+#include <pybind11/stl.h>
 #include <sym/pose3.h>
 #include <symforce/opt/factor.h>
 #include <symforce/opt/optimizer.h>
@@ -35,13 +37,14 @@ struct PoseGraphEdge {
 };
 
 std::vector<Eigen::Matrix4d> pose_graph_ba(
-    std::vector<PoseGraphVertex> vertices, std::vector<PoseGraphEdge> edges) {
+    std::vector<PoseGraphVertex> vertices,
+    std::vector<PoseGraphEdge> edges) {
   std::vector<sym::Factor<double>> factors;
 
   int num_vertices = vertices.size();
   int num_edges = edges.size();
 
-  for (auto &e : edges) {
+  for (auto& e : edges) {
     factors.push_back(
         sym::Factord::Hessian(circle_pose_graph::PoseDiffFactor<double>,
                               {{Var::POSE, e.v1_id},
@@ -55,10 +58,10 @@ std::vector<Eigen::Matrix4d> pose_graph_ba(
 
   const double epsilon = 1e-10;
   values.Set({Var::EPSILON}, epsilon);
-  for (auto &v : vertices) {
+  for (auto& v : vertices) {
     values.Set({Var::POSE, v.id}, pose_from_homo_mat(v.pose));
   }
-  for (auto &e : edges) {
+  for (auto& e : edges) {
     values.Set({Var::POSE_DIFF, e.v1_id, e.v2_id},
                pose_from_homo_mat(e.v1_to_v2));
   }
