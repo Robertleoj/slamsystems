@@ -23,16 +23,14 @@ class OakSlam {
                                              right_intrinsics, center_to_left,
                                              center_to_right}),
         tracker(cam_calibration, &map) {
-
+    // initialize profiler bruh
     rmtSettings* settings = rmt_Settings();
     settings->port = 17815;  // Change to your desired port
 
     rmt_CreateGlobalInstance(&rmt);
   }
 
-  void process_frame(OakFrame& frame) {
-    tracker.process_frame(frame);
-  }
+  void process_frame(OakFrame& frame) { tracker.process_frame(frame); }
 
   void process_frame(img_array center_color,
                      img_array left_mono,
