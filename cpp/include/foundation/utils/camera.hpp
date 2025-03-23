@@ -11,25 +11,27 @@ namespace py = pybind11;
 namespace foundation {
 
 class CameraParams {
- public:
-  CameraParams(Eigen::Matrix3d K);
-  CameraParams(double fx, double fy, double cx, double cy);
-  CameraParams(Eigen::Matrix3d K, Eigen::Matrix<double, 14, 1> dist_coeffs);
+   public:
+    CameraParams(Eigen::Matrix3d K);
+    CameraParams(double fx, double fy, double cx, double cy);
+    CameraParams(Eigen::Matrix3d K, Eigen::Matrix<double, 14, 1> dist_coeffs);
 
-  CameraParams(py::EigenDRef<Eigen::Matrix3d> K,
-               py::EigenDRef<Eigen::Matrix<double, 14, 1>> dist_coeffs,
-               unsigned int width,
-               unsigned int height);
+    CameraParams(
+        py::EigenDRef<Eigen::Matrix3d> K,
+        py::EigenDRef<Eigen::Matrix<double, 14, 1>> dist_coeffs,
+        unsigned int width,
+        unsigned int height
+    );
 
-  sym::LinearCameraCald to_symforce();
+    sym::LinearCameraCald to_symforce();
 
-  double fx();
-  double fy();
-  double cx();
-  double cy();
-  Eigen::Matrix3d K;
-  unsigned int width, height;
-  Eigen::Matrix<double, 14, 1> dist_coeffs;
+    double fx();
+    double fy();
+    double cx();
+    double cy();
+    Eigen::Matrix3d K;
+    unsigned int width, height;
+    Eigen::Matrix<double, 14, 1> dist_coeffs;
 };
 
 }  // namespace foundation

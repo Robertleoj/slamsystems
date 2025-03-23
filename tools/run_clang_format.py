@@ -9,22 +9,7 @@ import subprocess
 from itertools import chain
 from pathlib import Path
 
-repo_paths = ("src", "include")
-ignore_folders = ("ViTPose_pytorch",)
-
-
-def include(path: Path) -> bool:
-    """Return True iff this path should be included.
-
-    Each path is checked against the ignore_folders
-
-    Args:
-        path: The path to check.
-    """
-    for ignore_folder in ignore_folders:
-        if str(path).find(ignore_folder) != -1:
-            return False
-    return True
+repo_paths = ["cpp"]
 
 
 def run_clang_format() -> None:
@@ -37,7 +22,8 @@ def run_clang_format() -> None:
         header_paths = Path(name).rglob("*.hpp")
         all_paths.extend([str(el) for el in chain(source_paths, header_paths)])
 
-    all_paths = list(filter(include, all_paths))
+    print(all_paths)
+
     subprocess.run(["clang-format", "-i"] + all_paths)
 
 

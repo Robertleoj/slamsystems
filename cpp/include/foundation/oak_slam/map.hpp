@@ -23,61 +23,74 @@ using KeyframeID = ID<KeyframeTag>;
  *  an ORB feature detected in keyframes.
  */
 class Feature {
- public:
-  Feature(std::optional<LandmarkID> landmark_id = std::nullopt)
-      : id(FeatureID::next()), landmark_id(landmark_id) {}
+   public:
+    Feature(
+        std::optional<LandmarkID> landmark_id = std::nullopt
+    )
+        : id(FeatureID::next()),
+          landmark_id(landmark_id) {}
 
-  FeatureID id;
-  std::optional<LandmarkID> landmark_id;
+    FeatureID id;
+    std::optional<LandmarkID> landmark_id;
 };
 
 /**
  * used to reference both the keyframe and the feature a landmark points to
  */
 struct FeatureRef {
-  KeyframeID keyframe_id;
-  OakCamLoc::Enum cam;
-  // invariant: this feature must be contained in the keyframe, or not exist
-  FeatureID feature_id;
+    KeyframeID keyframe_id;
+    OakCamLoc::Enum cam;
+    // invariant: this feature must be contained in the keyframe, or not exist
+    FeatureID feature_id;
 };
 class Landmark {
- public:
-  Landmark() : id(LandmarkID::next()) {}
-  LandmarkID id;
-  Eigen::Vector3d location;
-  // all features that detected this landmark
-  std::map<FeatureID, FeatureRef> features;
+   public:
+    Landmark()
+        : id(LandmarkID::next()) {}
+    LandmarkID id;
+    Eigen::Vector3d location;
+    // all features that detected this landmark
+    std::map<FeatureID, FeatureRef> features;
 
-  void add_feature(FeatureID feature_id,
-                   KeyframeID keyframe_id,
-                   OakCamLoc::Enum cam) {
-    FeatureRef ref{
-        .keyframe_id = keyframe_id, .cam = cam, .feature_id = feature_id};
+    void add_feature(
+        FeatureID feature_id,
+        KeyframeID keyframe_id,
+        OakCamLoc::Enum cam
+    ) {
+        FeatureRef ref{
+            .keyframe_id = keyframe_id, .cam = cam, .feature_id = feature_id
+        };
 
-    features.insert({feature_id, ref});
-  }
+        features.insert({feature_id, ref});
+    }
 };
 
 class Keyframe {
- public:
-  KeyframeID id;
-  std::map<OakCamLoc::Enum, std::map<FeatureID, Feature>> features;
+   public:
+    KeyframeID id;
+    std::map<OakCamLoc::Enum, std::map<FeatureID, Feature>> features;
 
-  Keyframe() : id(KeyframeID::next()) {}
+    Keyframe()
+        : id(KeyframeID::next()) {}
 
-  void add_feature(OakCamLoc::Enum which, Feature&& feature) {
-    features[which].insert({feature.id, std::move(feature)});
-  }
+    void add_feature(
+        OakCamLoc::Enum which,
+        Feature&& feature
+    ) {
+        features[which].insert({feature.id, std::move(feature)});
+    }
 };
 
 class Map {
- public:
-  std::map<KeyframeID, Keyframe> keyframes;
-  std::map<LandmarkID, Landmark> landmarks;
+   public:
+    std::map<KeyframeID, Keyframe> keyframes;
+    std::map<LandmarkID, Landmark> landmarks;
 
-  void add_keyframe(Keyframe&& keyframe) {
-    keyframes.insert({keyframe.id, std::move(keyframe)});
-  }
+    void add_keyframe(
+        Keyframe&& keyframe
+    ) {
+        keyframes.insert({keyframe.id, std::move(keyframe)});
+    }
 };
 
 }  // namespace oak_slam

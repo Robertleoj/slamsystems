@@ -11,17 +11,19 @@ namespace py = pybind11;
 namespace foundation {
 
 template <typename T>
-bool is_shape(py::array_t<T, py::array::c_style> arr,
-              std::vector<std::optional<int>> shape) {
-  if (arr.ndim() != shape.size()) {
-    return false;
-  }
-  for (int i = 0; i < shape.size(); i++) {
-    if (shape[i].has_value() && arr.shape(i) != shape[i].value()) {
-      return false;
+bool is_shape(
+    py::array_t<T, py::array::c_style> arr,
+    std::vector<std::optional<int>> shape
+) {
+    if (arr.ndim() != shape.size()) {
+        return false;
     }
-  }
-  return true;
+    for (int i = 0; i < shape.size(); i++) {
+        if (shape[i].has_value() && arr.shape(i) != shape[i].value()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::vector<Eigen::Vector3d> array_to_3d_points(double_array arr);

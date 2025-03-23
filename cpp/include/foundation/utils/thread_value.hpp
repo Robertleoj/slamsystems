@@ -10,30 +10,32 @@ namespace foundation {
  */
 template <typename T>
 class ThreadValue {
- public:
-  void update(T& val) {
-    {
-      std::scoped_lock l(mtx);
-      curr_value = val;
-    }
-    updated = true;
-  }
-
-  std::optional<T> get_update() {
-    if (!updated) {
-      return std::nullopt;
+   public:
+    void update(
+        T& val
+    ) {
+        {
+            std::scoped_lock l(mtx);
+            curr_value = val;
+        }
+        updated = true;
     }
 
-    std::scoped_lock l(mtx);
+    std::optional<T> get_update() {
+        if (!updated) {
+            return std::nullopt;
+        }
 
-    updated = false;
-    return curr_value.value();
-  }
+        std::scoped_lock l(mtx);
 
- private:
-  std::mutex mtx;
-  std::atomic<bool> updated;
+        updated = false;
+        return curr_value.value();
+    }
 
-  std::optional<T> curr_value;
+   private:
+    std::mutex mtx;
+    std::atomic<bool> updated;
+
+    std::optional<T> curr_value;
 };
 }  // namespace foundation
