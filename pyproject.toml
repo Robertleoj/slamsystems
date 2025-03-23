@@ -68,7 +68,6 @@ exclude = [
     "attic",
     "notebooks",
     "vcpkg_installed",
-    "src/g2o",
 ]
 
 # Same as Black.
@@ -124,7 +123,6 @@ exclude = '''
   | attic
   | .venv
   | vcpkg_installed
-  | src/g2o
 )/
 '''
 

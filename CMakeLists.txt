@@ -25,7 +25,6 @@ set(GFLAGS_USE_TARGET_NAMESPACE ON)
 
 find_package(Threads REQUIRED)
 find_package(gflags CONFIG REQUIRED)
-find_package(g2o CONFIG REQUIRED)
 find_package(pybind11 REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)

@@ -5,7 +5,6 @@
         "spdlog",
         "eigen3",
         "sophus",
-        "g2o",
         "pybind11",
         "ceres",
         "opencv4",

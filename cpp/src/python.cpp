@@ -9,11 +9,8 @@
 
 #include <foundation/oak_slam/python.hpp>
 #include <foundation/reinventing/icp_ceres.hpp>
-#include <foundation/reinventing/icp_g2o.hpp>
 #include <foundation/reinventing/poly_fit_ceres.hpp>
-#include <foundation/reinventing/poly_fit_g2o.hpp>
 #include <foundation/reinventing/solve_pnp_ceres.hpp>
-#include <foundation/reinventing/solve_pnp_g2o.hpp>
 #include <foundation/spatial/lie_algebra.hpp>
 #include <foundation/symforce_exercises/depth_slam.hpp>
 #include <foundation/symforce_exercises/pose_graph.hpp>
@@ -46,19 +43,9 @@ void init_reinventing(py::module_ &m) {
         py::arg("object_points"), py::arg("K"), py::arg("rvec_init"),
         py::arg("tvec_init"));
 
-  m.def("solve_pnp_g2o", &solve_pnp_g2o_pywrapper, "Solve PnP with g2o",
-        py::arg("image_points"), py::arg("object_points"), py::arg("K"),
-        py::arg("rvec_init"), py::arg("tvec_init"));
-
   m.def("fit_poly_ceres", &fit_poly_ceres,
         "Fit a polynomial to data with Ceres", py::arg("data_x"),
         py::arg("data_y"), py::arg("poly_order"));
-
-  m.def("fit_poly_g2o", &fit_poly_g2o, "Fit a polynomial to data with g2o",
-        py::arg("data_x"), py::arg("data_y"), py::arg("poly_order"));
-
-  m.def("icp_g2o", &icp_g2o_pywrapper, py::arg("points1"), py::arg("points2"),
-        py::arg("initial_rvec"), py::arg("initial_tvec"));
 
   m.def("icp_ceres", &icp_ceres_pywrapper, py::arg("points1"),
         py::arg("points2"), py::arg("initial_rvec"), py::arg("initial_tvec"));
