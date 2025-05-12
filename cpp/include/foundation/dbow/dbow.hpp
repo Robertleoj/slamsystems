@@ -1,5 +1,5 @@
 #pragma once
-#include <DBow3/DBoW3.h>
+#include <DBoW3.h>
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 

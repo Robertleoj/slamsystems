@@ -2056,6 +2056,7 @@ requires-dist = [
     { name = "types-jinja2", marker = "extra == 'dev'" },
     { name = "types-requests", marker = "extra == 'dev'" },
     { name = "types-setuptools", marker = "extra == 'dev'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.9'" },
     { name = "uv", marker = "extra == 'dev'", specifier = ">=0.2.0" },
     { name = "wheel", marker = "extra == 'setup'" },
 ]

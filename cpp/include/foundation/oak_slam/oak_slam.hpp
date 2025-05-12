@@ -4,7 +4,6 @@
 #include <foundation/oak_slam/map.hpp>
 #include <foundation/oak_slam/tracker.hpp>
 #include <foundation/oak_slam/type_defs.hpp>
-#include <foundation/oak_slam/visualizer.hpp>
 #include <foundation/utils/camera.hpp>
 #include <foundation/utils/numpy.hpp>
 #include <opencv2/opencv.hpp>
@@ -29,8 +28,7 @@ class OakSlam {
               center_to_left,
               center_to_right
           }),
-          tracker(cam_calibration, &map),
-          visualizer() {
+          tracker(cam_calibration, &map) {
         // initialize profiler bruh
         rmtSettings* settings = rmt_Settings();
         settings->port = 17815;  // Change to your desired port
@@ -41,7 +39,6 @@ class OakSlam {
     void process_frame(
         OakFrame& frame
     ) {
-        visualizer.set_current_frame(frame);
         tracker.process_frame(frame);
     }
 
@@ -66,8 +63,6 @@ class OakSlam {
     Tracker tracker;
 
     Remotery* rmt;
-
-    Visualizer visualizer;
 };
 
 }  // namespace oak_slam

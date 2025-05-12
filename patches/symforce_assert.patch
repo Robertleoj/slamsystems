@@ -1,0 +1,13 @@
+diff --git a/symforce/opt/assert.h b/symforce/opt/assert.h
+index b42d618d..23b29fe7 100644
+--- a/symforce/opt/assert.h
++++ b/symforce/opt/assert.h
+@@ -26,7 +26,7 @@ template <typename... T>
+ inline std::string FormatFailure(const char* error, const char* func, const char* file, int line,
+                                  const char* fmt, T&&... args) {
+   return fmt::format("SYM_ASSERT: {}\n    --> {}\n    --> {}:{}\n{}\n", error, func, file, line,
+-                     fmt::format(fmt, std::forward<T>(args)...));
++                     fmt::format(fmt::runtime(fmt), std::forward<T>(args)...));
+ }
+ 
+ }  // namespace sym
