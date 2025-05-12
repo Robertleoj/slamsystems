@@ -55,8 +55,10 @@ find_package(OpenCV REQUIRED)
 
 set(LOCAL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp/include)
 
-set(INSTALLS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cpp_installs")
-include_directories(${INSTALLS_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/external/Remotery/lib)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/Remotery/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/DBow3/src
+)
 # link_directories(${INSTALLS_DIR}/lib)
 
 set(SYMFORCE_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -64,8 +66,6 @@ set(SYMFORCE_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 # set(SYMFORCE_BUILD_OPT ON CACHE BOOL "" FORCE)
 
 add_subdirectory(external/DBow3)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/DBow3/src)
-
 add_subdirectory(cpp/src)
 
 target_link_options(foundation PRIVATE 
