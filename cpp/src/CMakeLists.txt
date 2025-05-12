@@ -16,6 +16,13 @@ set(FILES
     dbow/python.cpp
 
     ../../external/Remotery/lib/Remotery.c
+
+)
+
+set_source_files_properties(
+    ../../external/Remotery/lib/Remotery.c
+    PROPERTIES
+    COMPILE_FLAGS "-Wno-nonnull -Wno-error"
 )
 
 

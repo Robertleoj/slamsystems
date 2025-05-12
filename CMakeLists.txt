@@ -28,19 +28,23 @@ find_package(pybind11 CONFIG)
 include(ExternalProject)
 
 ExternalProject_Add(symforce_ext
-  SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/symforce  # 🔥 Local path to the SymForce repo
-  BINARY_DIR ${CMAKE_BINARY_DIR}/symforce-build
-  CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/symforce-install
-    -DSYMFORCE_BUILD_OPT=ON
-    -DSYMFORCE_BUILD_CC_SYM=OFF         # 🔥 No Python bindings
-    -DSYMFORCE_ADD_PYTHON_TESTS=OFF     # 🔥 No Python tests
-    -DSYMFORCE_BUILD_SYMENGINE=OFF      # 🔥 No symenginepy junk
-    -DSYMFORCE_BUILD_EXAMPLES=OFF
-    -DSYMFORCE_BUILD_TESTS=OFF
-    -DSYMFORCE_GENERATE_MANIFEST=OFF
-  INSTALL_DIR ${CMAKE_BINARY_DIR}/symforce-install
-  INSTALL_COMMAND cmake --install . --prefix <INSTALL_DIR>
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/symforce  # 🔥 Local path to the SymForce repo
+    BINARY_DIR ${CMAKE_BINARY_DIR}/symforce-build
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/symforce-install
+        -DSYMFORCE_BUILD_OPT=ON
+        -DSYMFORCE_BUILD_CC_SYM=OFF         # 🔥 No Python bindings
+        -DSYMFORCE_ADD_PYTHON_TESTS=OFF     # 🔥 No Python tests
+        -DSYMFORCE_BUILD_SYMENGINE=OFF      # 🔥 No symenginepy junk
+        -DSYMFORCE_BUILD_EXAMPLES=OFF
+        -DSYMFORCE_BUILD_TESTS=OFF
+        -DSYMFORCE_GENERATE_MANIFEST=OFF
+    LOG_CONFIGURE OFF
+    LOG_BUILD OFF
+    LOG_INSTALL OFF
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/symforce-install
+    INSTALL_COMMAND /bin/sh -c "cmake --install . --prefix <INSTALL_DIR> > /dev/null"
+    BUILD_COMMAND /bin/sh -c "ninja -v > /dev/null"
 )
 
 
@@ -59,11 +63,9 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/Remotery/lib
     ${CMAKE_CURRENT_SOURCE_DIR}/external/DBow3/src
 )
-# link_directories(${INSTALLS_DIR}/lib)
 
 set(SYMFORCE_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(SYMFORCE_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-# set(SYMFORCE_BUILD_OPT ON CACHE BOOL "" FORCE)
 
 add_subdirectory(external/DBow3)
 add_subdirectory(cpp/src)
