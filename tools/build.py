@@ -33,7 +33,6 @@ def build(debug: bool) -> None:
         str(build_path),
         "-G",
         "Ninja",
-        "-DCMAKE_EXPORT_COMPILE_COMMANDS=1",
         "-DCMAKE_C_COMPILER=/usr/bin/gcc-13",
         "-DCMAKE_CXX_COMPILER=/usr/bin/g++-13",
         '-DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld"',

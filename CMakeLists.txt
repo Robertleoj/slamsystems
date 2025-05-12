@@ -7,14 +7,21 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-linux")
 
 set(VCPKG_TARGET_TRIPLET "x64-linux" CACHE STRING "")
 
-
 message(STATUS "${CMAKE_TOOLCHAIN_FILE}")
+
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)
 
 find_package(Python COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)

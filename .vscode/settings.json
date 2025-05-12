@@ -1,4 +1,12 @@
 {
+  "clangd.arguments": [
+    "--compile-commands-dir=build",
+    "--function-arg-placeholders=false",
+    "--tweaks=-Wall",
+    "--tweaks=-Wextra",
+    "--clang-tidy",
+    "-j=5"
+  ],
   "emeraldwalk.runonsave": {
     "commands": [
       {
@@ -115,8 +123,9 @@
     "editor.tabSize": 4
   },
   "[cpp]": {
+    "editor.defaultFormatter": "xaver.clang-format",
     "editor.insertSpaces": true,
-    "editor.tabSize": 2
+    "editor.tabSize": 4
   },
   "editor.detectIndentation": false,
   "C_Cpp.files.exclude": {
@@ -125,6 +134,12 @@
     "**/.vs": true
   },
   "python.analysis.inlayHints.callArgumentNames": "all",
+  "C_Cpp.intelliSenseCacheSize": 0,
+  "clang-format.executable": "/usr/bin/clang-format-19",
+  "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
+  "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
+  "C_Cpp.inlayHints.parameterNames.enabled": true,
+  "C_Cpp.inlayHints.referenceOperator.enabled": true,
   "python.analysis.typeCheckingMode": "standard",
-  "C_Cpp.intelliSenseCacheSize": 0
+  "clangd.path": "clangd-19"
 }
