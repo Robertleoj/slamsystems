@@ -2,7 +2,6 @@
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
-#include <sym/linear_camera_cal.h>
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
@@ -22,8 +21,6 @@ class CameraParams {
         unsigned int width,
         unsigned int height
     );
-
-    sym::LinearCameraCald to_symforce();
 
     double fx();
     double fy();

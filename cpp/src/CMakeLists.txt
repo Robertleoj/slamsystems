@@ -11,10 +11,7 @@ set(FILES
     oak_slam/python.cpp
     oak_slam/triangulation.cpp
 
-    optim/symforce/conversion.cpp
-
     ../../external/Remotery/lib/Remotery.c
-
 )
 
 set_source_files_properties(

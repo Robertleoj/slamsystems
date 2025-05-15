@@ -37,13 +37,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/Remotery/lib
 )
 
-# Optional FetchContent dep (slam_dunk)
-# include(FetchContent)
-# FetchContent_Declare(slamd
-#     SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/slam_dunk
-#     SOURCE_SUBDIR slamd
-# )
-# FetchContent_MakeAvailable(slamd)
 add_subdirectory(${CMAKE_SOURCE_DIR}/external/slam_dunk/slamd)
 
 # Your actual code
@@ -56,6 +49,9 @@ PRIVATE
     Eigen3::Eigen 
     Sophus::Sophus 
     opencv_core 
+    opencv_flann
+    opencv_calib3d
+    opencv_features2d
     slamd::slamd
 )
 

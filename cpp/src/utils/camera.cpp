@@ -38,10 +38,6 @@ CameraParams::CameraParams(
       width(width),
       height(height) {};
 
-sym::LinearCameraCald CameraParams::to_symforce() {
-    return sym::LinearCameraCald(Eigen::Vector4d({fx(), fy(), cx(), cy()}));
-}
-
 double CameraParams::fx() {
     return K(0, 0);
 }
