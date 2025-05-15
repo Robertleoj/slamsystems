@@ -140,3 +140,6 @@ vcpkg_installed
 data/videos
 data/monumental_take_home
 cpp_installs
+
+.fc_cache
+.dep_build

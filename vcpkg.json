@@ -6,6 +6,8 @@
         "eigen3",
         "sophus",
         "pybind11",
-        "opencv4"
+        "opencv4",
+        "fmt",
+        "lcm"
     ]
 }

@@ -4,6 +4,6 @@
 [submodule "external/Remotery"]
 	path = external/Remotery
 	url = git@github.com:Celtoys/Remotery.git
-[submodule "external/symforce"]
-	path = external/symforce
-	url = git@github.com:symforce-org/symforce.git
+[submodule "external/slam_dunk"]
+	path = external/slam_dunk
+	url = git@github.com:Robertleoj/slam_dunk.git

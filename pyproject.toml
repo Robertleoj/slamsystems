@@ -14,10 +14,6 @@ dependencies = [
     "pybind11-stubgen<3.0.0,>=2.5.1",
     "rerun-sdk>=0.22.1",
     "sympy",
-    # PR that fixes some crazy segfault I was having.
-    # update this link when the PR is merged
-    # https://github.com/symforce-org/symforce/pull/426
-    "symforce @ file:///${PROJECT_ROOT}/external/symforce",
     "torch>=2.4.1",
     "imageio[ffmpeg,pyav]>=2.37.0",
     "dt-apriltags>=3.1.7",
@@ -25,6 +21,8 @@ dependencies = [
     "open3d>=0.19.0",
     "depthai>=2.29.0.0",
     "depthai-viewer>=0.2.9",
+    "argh",
+    "symforce>=0.10.1",
 ]
 
 

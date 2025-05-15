@@ -1,7 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <foundation/dbow/python.hpp>
 #include <foundation/oak_slam/python.hpp>
 #include <foundation/spatial/python.hpp>
 #include <foundation/utils/python.hpp>
@@ -42,7 +41,4 @@ PYBIND11_MODULE(
 
     auto oak_slam = m.def_submodule("oak_slam", "Oak slam broseph");
     oak_slam::init_oak_slam(oak_slam);
-
-    auto dbow_module = m.def_submodule("dbow");
-    init_dbow(dbow_module);
 }

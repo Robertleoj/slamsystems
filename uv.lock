@@ -1369,6 +1369,7 @@ name = "project"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "argh" },
     { name = "depthai" },
     { name = "depthai-viewer" },
     { name = "dt-apriltags" },
@@ -1412,6 +1413,7 @@ third-party = [
 
 [package.metadata]
 requires-dist = [
+    { name = "argh" },
     { name = "depthai", specifier = ">=2.29.0.0" },
     { name = "depthai-viewer", specifier = ">=0.2.9" },
     { name = "dt-apriltags", specifier = ">=3.1.7" },
@@ -1427,7 +1429,7 @@ requires-dist = [
     { name = "pybind11-stubgen", specifier = ">=2.5.1,<3.0.0" },
     { name = "pyrealsense2", specifier = ">=2.55.1.6486,<3.0.0.0" },
     { name = "rerun-sdk", specifier = ">=0.22.1" },
-    { name = "symforce", directory = "external/symforce" },
+    { name = "symforce", specifier = ">=0.10.1" },
     { name = "sympy" },
     { name = "tifffile", specifier = ">=2025.1.10,<2026.0.0" },
     { name = "torch", specifier = ">=2.4.1" },
@@ -1859,20 +1861,17 @@ wheels = [
 
 [[package]]
 name = "skymarshal"
-source = { directory = "external/symforce/third_party/skymarshal" }
+version = "0.10.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argh" },
     { name = "jinja2" },
     { name = "numpy" },
     { name = "ply" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "argh" },
-    { name = "jinja2" },
-    { name = "numpy" },
-    { name = "ply" },
+sdist = { url = "https://files.pythonhosted.org/packages/99/fc/e5b96d42978a57339ac809bb7ebcfb2db10333a572e403838a56119d38bb/skymarshal-0.10.1.tar.gz", hash = "sha256:7dc69c8c739bec61891ecce5a77b371fc55911ea841d47a931ee6f476ba1307c", size = 80324 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2e/2a/40a763cfca01feebcb5a867582d19c3b24121a80c8cee0c6ae2728da0b32/skymarshal-0.10.1-py3-none-any.whl", hash = "sha256:0ee66c00a3edc9501fb66fe86cb53408d235511c43c0d33b13c94b79a50d2a2e", size = 89387 },
 ]
 
 [[package]]
@@ -1990,7 +1989,8 @@ wheels = [
 
 [[package]]
 name = "symforce"
-source = { directory = "external/symforce" }
+version = "0.10.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "clang-format" },
     { name = "graphviz" },
@@ -2002,75 +2002,23 @@ dependencies = [
     { name = "symforce-sym" },
     { name = "sympy" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "argh", marker = "extra == 'dev'" },
-    { name = "breathe", marker = "extra == 'dev'" },
-    { name = "breathe", marker = "extra == 'docs'" },
-    { name = "clang-format" },
-    { name = "cmake", marker = "extra == 'setup'", specifier = ">=3.17,<3.27" },
-    { name = "coverage", marker = "extra == 'dev'" },
-    { name = "cython", marker = "extra == 'setup'", specifier = ">=0.19.1,<3" },
-    { name = "furo", marker = "extra == 'dev'" },
-    { name = "furo", marker = "extra == 'docs'" },
-    { name = "graphviz" },
-    { name = "ipykernel", marker = "extra == 'dev'" },
-    { name = "ipykernel", marker = "extra == 'docs'" },
-    { name = "ipython-genutils", marker = "extra == 'dev'" },
-    { name = "ipython-genutils", marker = "extra == 'docs'" },
-    { name = "jinja2" },
-    { name = "jinja2", marker = "extra == 'dev'", specifier = "~=3.0" },
-    { name = "matplotlib", marker = "extra == 'dev'" },
-    { name = "matplotlib", marker = "extra == 'docs'" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = "~=1.11.0" },
-    { name = "myst-parser", marker = "extra == 'dev'" },
-    { name = "myst-parser", marker = "extra == 'docs'" },
-    { name = "nbsphinx", marker = "extra == 'dev'" },
-    { name = "nbsphinx", marker = "extra == 'docs'" },
-    { name = "nbstripout", marker = "extra == 'dev'" },
-    { name = "nbstripout", marker = "extra == 'docs'" },
-    { name = "numba", marker = "extra == 'dev'" },
-    { name = "numpy", specifier = "<2.0" },
-    { name = "pandas", marker = "extra == 'dev'" },
-    { name = "pandas", marker = "extra == 'docs'" },
-    { name = "pip", marker = "extra == 'setup'" },
-    { name = "plotly", marker = "extra == 'dev'" },
-    { name = "plotly", marker = "extra == 'docs'" },
-    { name = "pybind11-stubgen", marker = "extra == 'dev'", specifier = ">=2.5.3" },
-    { name = "ruff" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = "~=0.9.7" },
-    { name = "scipy" },
-    { name = "setuptools", marker = "extra == 'setup'", specifier = ">=62.3.0" },
-    { name = "setuptools-scm", marker = "extra == 'setup'", specifier = ">=8" },
-    { name = "skymarshal", directory = "external/symforce/third_party/skymarshal" },
-    { name = "skymarshal", marker = "extra == 'setup'", directory = "external/symforce/third_party/skymarshal" },
-    { name = "sphinx", marker = "extra == 'dev'" },
-    { name = "sphinx", marker = "extra == 'docs'" },
-    { name = "sphinx-copybutton", marker = "extra == 'dev'" },
-    { name = "sphinx-copybutton", marker = "extra == 'docs'" },
-    { name = "sphinxext-opengraph", marker = "extra == 'dev'" },
-    { name = "sphinxext-opengraph", marker = "extra == 'docs'" },
-    { name = "symforce-sym", directory = "external/symforce/gen/python" },
-    { name = "sympy", specifier = "~=1.11.1" },
-    { name = "types-jinja2", marker = "extra == 'dev'" },
-    { name = "types-requests", marker = "extra == 'dev'" },
-    { name = "types-setuptools", marker = "extra == 'dev'" },
-    { name = "typing-extensions", marker = "python_full_version < '3.9'" },
-    { name = "uv", marker = "extra == 'dev'", specifier = ">=0.2.0" },
-    { name = "wheel", marker = "extra == 'setup'" },
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/06/af/f75f4d77705cae84f11db21afabaa1044d820999e9b90a8b8e7b7bf171dd/symforce-0.10.1-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:39b76a2aa0b68c21e248ab6231a264fdfa7982b004d14a6139c5c858787b153d", size = 4919200 },
+    { url = "https://files.pythonhosted.org/packages/ba/fe/663838d7dd85b72606ff12c3c1ccfda1618838ce78fee74ba3336129b87c/symforce-0.10.1-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:aa2e0fb372e081c58b8a79cdaf9a15818f9a5a8a8f3cba653214c87c1a6d3880", size = 4415073 },
+    { url = "https://files.pythonhosted.org/packages/2c/9c/9921005d8819b4141f437eff4bb4b9945f3454abfbd5b7798ecdf90f7563/symforce-0.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5947afac0c3667ba19c9ff4cc13e90d1e01356fae0688589bdf42aa4a640dc77", size = 5295270 },
 ]
-provides-extras = ["docs", "dev", "setup"]
 
 [[package]]
 name = "symforce-sym"
-source = { directory = "external/symforce/gen/python" }
+version = "0.10.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
 ]
-
-[package.metadata]
-requires-dist = [{ name = "numpy" }]
+sdist = { url = "https://files.pythonhosted.org/packages/f0/91/30c5f78e28ccd2ec80f2475d05d7e0366addd518768578aefc3079cd19a2/symforce_sym-0.10.1.tar.gz", hash = "sha256:e38f7adc8d1f4ff4da639ce014d577468d5476411b5b093c93f14bba6d4815e1", size = 42774 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e2/24/522c6c943b8446c676394456a6e3eb232587a0f756e43fd034ff19cb8110/symforce_sym-0.10.1-py3-none-any.whl", hash = "sha256:49e02c3601a84c39bc33dc65a5d4cf5db1ecb5d667ff36534b5a55135b5375c6", size = 85763 },
+]
 
 [[package]]
 name = "sympy"
